@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCoreTest", "DotNetCoreTest\DotNetCoreTest.csproj", "{D04CDDDB-B43C-4252-A86B-BFB8A5930249}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCoreTest", "DotNetCoreTest\DotNetCoreTest.csproj", "{D04CDDDB-B43C-4252-A86B-BFB8A5930249}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
