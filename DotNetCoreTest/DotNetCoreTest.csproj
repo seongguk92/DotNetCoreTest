@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.12.2" />
   </ItemGroup>
 
 </Project>

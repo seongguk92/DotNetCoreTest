@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 
 namespace DotNetCoreTest
 {
@@ -29,37 +31,45 @@ namespace DotNetCoreTest
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
 
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/signin";
+                options.LogoutPath = "/signout";
+            })
+
            .AddKakaoTalk(options =>
             {
                 options.ClientId = Configuration["KakaoTalk:ClientId"];
                 options.ClientSecret = Configuration["KakaoTalk:ClientSecret"];
             });
 
-            services.AddControllersWithViews();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (HostingEnvironment.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                IdentityModelEventSource.ShowPII = true;
             }
-            else
+
+            // Required to serve files with no extension in the .well-known folder
+            var options = new StaticFileOptions()
             {
-                app.UseExceptionHandler("/Home/Error");
-            }
-            app.UseStaticFiles();
+                ServeUnknownFileTypes = true,
+            };
+
+            app.UseStaticFiles(options);
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
